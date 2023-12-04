@@ -1,0 +1,59 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+  <div class="d-block mb-4 mb-md-0">
+      
+      <h2 class="h4">Table fournisseur</h2>
+      <p class="mb-0">tous les Fournisseurs</p>
+  </div>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <button type="button" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center js-load-fournisseur" data-url="{% url 'create_fournisseur' %}">
+        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        New Fournisseur
+    
+</div>
+</div>
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+  <table class="table table-hover" id="fournisseur-table">
+    <thead>
+      <tr>
+        <th class="border-gray-200">#</th>
+        <th class="border-gray-200">Personel </th>
+        <th class="border-gray-200">Fournisseur </th>
+        
+        
+
+        <th class="border-gray-200">Actions</th>
+        <th class="border-gray-200">Localisation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% include 'FournisseurPage/includes/fournisseur_list.html' %}
+    </tbody>
+  </table>
+  </div>
+
+  <div class="modal fade" id="modal-fournisseur">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{% static 'assets/js/frn.js' %}"></script>
+
+<script>
+  $(document).ready(function() {
+    $('.table').DataTable();
+  } );
+  
+  </script>
+{% endblock %}

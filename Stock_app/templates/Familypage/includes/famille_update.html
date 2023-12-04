@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+  <form method="post" action="{% url 'famille_update' form.instance.pk %}" class="js_update_famille_form">
+    {% csrf_token %}
+    <div class="modal-header">
+      <h4 class="modal-title">update famille</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      
+    </div>
+    <div class="modal-body">
+      {{form|crispy}}
+    </div>
+    <div class="modal-footer">
+     
+      <button type="submit" class="btn btn-primary">Créer famille</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+    </div>
+  </form>

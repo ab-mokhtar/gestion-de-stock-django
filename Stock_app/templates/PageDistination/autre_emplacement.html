@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-1">  
+    <div class="d-block mb-4 mb-md-0">
+   
+</div>
+<h5>Autre Emplacement</h5>
+  </div>
+<div class="row mx-1 mt-0" style="width: auto;">
+    {% for soc in soc_prod %}
+    {% if soc.societe == 'autre' %}
+    <div class="col-6  mt-4" >
+        <div class="card border-5 border-success {% for etat in rec %} {% if soc.societe == etat.article.issue_to.societe %} border-danger {% else %} border-success {% endif %} {% endfor %} bg-light shadow">
+            <div style="height: 160px;" class="card-body bg-light">
+                <h2 class="text-dark text-xl-center">{{soc.societe}}</2>
+                    <a href="{% url 'item_emplacement' soc.societe%}" class="stretched-link"></a>
+            </div>
+            <div class="card-footer  text-muted">
+                <button type="button" class="btn btn-white">
+                    items <span class="badge bg-success">{{soc.societe__count}}</span>
+                  </button>
+              </div>
+            </div>
+            
+            </div>
+           {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+        
+{% endblock content %}
+                            

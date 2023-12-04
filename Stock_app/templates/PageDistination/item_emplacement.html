@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-1">
+    <div class="d-block mb-2 mb-md-0">
+       
+        <h2 class="h4 mt-0">Article par box</h2>
+       
+    </div>
+    </div>
+    
+    <div class="row mt-1">
+
+            {% for dis in distinations %}
+                <div class="col-3" style="width: 19rem;min-height: 250px !important;">
+                    <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{dis.nom_dis}}</h4>
+                       
+                        {% for item in items %}
+
+                        {% if  dis.nom_dis == item.issue_to.nom_dis %}
+                       
+                        <h6 style="display: inline-flex;"><span class=" badge {% for etat in rec_item %} {% if item.ci == etat.article.ci %} bg-danger {% else %} bg-success {% endif %} {% endfor %}  my-2">{{ item.id_sous_famille.designation }}</span></h6> 
+                       
+                      
+                       <h6><span class=" badge bg-success  my-2">
+                        {% if item.id_sous_famille.icon %}
+                        
+                        <i class="{{item.id_sous_famille.icon}}"></i></span></h6> 
+                        {% else %}
+                        {{item.id_sous_famille.designation}}
+                        <i class="{{item.id_sous_famille.icon}}"></i></span></h6> 
+                         {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <a href="{% url 'box_detail' dis.id %}" class="stretched-link"></a>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+       
+    </div><!-- end div card columns -->
+</div>
+{% endblock %}

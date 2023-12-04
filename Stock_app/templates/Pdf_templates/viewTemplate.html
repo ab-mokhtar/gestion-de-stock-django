@@ -1,0 +1,128 @@
+{% extends 'layouts/base.html' %}
+{% load mathfilters %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block stylesheets %}
+<style>
+  .barcode{
+   width: 20%;
+   height: 30%;
+   font-size: medium;
+  }
+  @media print {
+    .navbar, #print{
+      display: none;
+    }
+  }
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div id="" class="row justify-content-center mt-0">
+        <div class="col-12 col-xl-9">
+          <div class="card shadow border-0 px-4 p-md-5 position-relative">
+            <span class="pull-right hidden-print">
+            <a href="javascript:;" id="print"  class="btn btn-sm btn-white m-b-10 p-l-5" style="float: left ;"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+          </span>
+  
+                    <div class="mb-6 d-flex align-items-center justify-content-center">
+                      <h2 class="h1 mb-0">Facture #{{ref}}</h2><span class="badge badge-lg bg-success ms-4">Payé</span>
+                    </div>
+                    <div class="row justify-content-between mb-4 mb-md-5">
+                      <div class="col-sm"><h5>fournisseur:</h5>
+                        <div><ul class="list-group simple-list">
+                          <li class="list-group-item fw-normal">{{fournisseurnom}}</li>
+                          <li class="list-group-item fw-normal"><a class="fw-bold text-primary" href="#">{{fournisseurmail}}</a>
+                          </li>
+                      </ul>
+                    
+                    </div>
+                  </div>
+                  <div class="col-sm col-lg-4">
+                    <dl class="row text-sm-right">
+                      <dt class="col-6">
+                        <strong>Facture.</strong>
+                      </dt><dd class="col-6">{{ref}}</dd>
+                      <dt class="col-6">
+                        <strong>Date:</strong></dt>
+                        
+                        <dd class="col-6">{{date}}</dd>
+                        
+                        
+                      </div></div><div class="row">
+                        <div class="col-12">
+                          <div class="table-responsive">
+                            <table class="table mb-0">
+                              <thead class="bg-light border-top">
+                                <tr>
+                                  <th scope="row" class="border-0 text-left">Item</th>
+                                  <th scope="row" class="border-0">#code</th>
+                                  <th scope="row" class="border-0">Qty</th>
+                                  <th scope="row" class="border-0">Code</th>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                      
+                                      <td class="desc">{{item.id_sous_famille}}</td>
+                                      <td class="unit" id={{item.id}}>{{item.ci}}</td>
+                                      <td class="qty">{{item.quantity|add:item.issue_quantity}}</td>
+                                      <td class="barcode">
+                                        <svg  viewBox='0 0 20 50' display="block" id="barcode{{item.id}}"></svg>
+                                        
+                                      </td>
+                                      
+                                    </tr>
+                                    {% endfor %}
+                                      </tbody>
+                                      </table></div>
+                                      </div>
+                                        <h4>Addresse Mail:</h4>
+                                        <span>stock@tanis-tunisie.com</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+{% endblock content %}
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+      <script>
+(function() {
+  // Using the jsBarcode library that was created by https://github.com/lindell/JsBarcode
+  data = {{code_data|safe}}
+  data.forEach(element => {
+    var content = document.getElementById(element.toString()).textContent
+  // Renders the initial barcode
+ el="#barcode"+element.toString()
+  
+  JsBarcode(el, content,{
+
+    width:1,
+    height:70,
+   
+  });
+  });
+  
+
+  // binds an event that will trigger a new barcode as you type
+  
+
+  // binds an event that will print
+  document.getElementById("print").onclick = function() {
+   
+        // Write contents in the new window.
+       window.print()
+            
+   
+  }
+  
+})();
+
+      </script>
+
+
+{% endblock javascripts %}

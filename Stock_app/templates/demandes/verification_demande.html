@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Transactions {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+      <div class="d-block mb-4 mb-md-0">
+         
+      <h2 class="h4">List Des Demandes</h2>
+      <p class="mb-0">verifier les demandes</p>
+  </div>
+    
+  </div>
+  
+
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table id="table-demande" class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">#</th>						
+                  <th class="border-gray-200">Article</th>
+                  <th class="border-gray-200">demandeur</th>
+                  <th class="border-gray-200">Quantite</th>
+                  <th class="border-gray-200">Etat</th>
+                  <th class="border-gray-200">validation</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% include 'demandes/liste_demandes.html' %}
+                                
+          </tbody>
+      </table>
+     </div>
+    
+     <div class="modal fade" id="modal-verif_demande" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+    
+          </div>
+        </div>
+      </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+$(function () {
+
+var loadForm = function () {
+  var btn = $(this);
+  $.ajax({
+    url: btn.attr('data-url'),
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+      $("#modal-verif_demande").modal("show");
+    },
+    success: function (data) {
+      $("#modal-verif_demande .modal-content").html(data.html_form);
+    }
+  });
+};
+
+var saveForm = function () {
+  var form = $(this);
+  $.ajax({
+    url: form.attr("action"),
+    data: form.serialize(),
+    type: form.attr("method"),
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+        $("#table-demande tbody").html(data.html_demande_list);
+        $("#modal-verif_demande").modal("hide");
+      }
+      else if(data.quantite_invalid){
+        $("#modal-verif_demande .modal-content").html(data.html_form);
+        alert('invalid quantite')
+        $("#modal-verif_demande").modal("hide");
+      }
+    }
+  });
+  return false;
+};
+
+$("#table-demande").on("click", ".verification-demande_btn", loadForm);
+$("#modal-verif_demande").on("submit", ".verification-demande", saveForm);
+});
+</script>
+
+
+
+{% endblock javascripts %}

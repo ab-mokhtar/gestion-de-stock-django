@@ -1,0 +1,31 @@
+
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+  <div class="d-block mb-4 mb-md-0">
+      
+      <h2 class="h4">Retour Stock </h2>
+      <p class="mb-0">Recupération Matériel</p>
+  </div>
+ 
+</div>
+     
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <form  method="POST" id="f" style="margin-left:400px;">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            {{form|crispy}}
+            <div class="col-7 mt-2">
+            <button type="submit" class="btn btn-primary ">Submit</button>
+            <a class="btn btn-danger" href="{% url 'retour_details' %}">Annuler</a>
+          </div>
+          </div>
+          </form>
+
+    </div>
+
+    {% endblock %}

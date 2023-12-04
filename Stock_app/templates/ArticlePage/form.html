@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-3">
+      <div class="d-block mb-0 mb-md-0">
+        
+          <h2 class="h4">All Orders</h2>
+          <p class="mb-0">Your web analytics dashboard template.</p>
+      </div>
+     
+  </div>
+        
+    <form  method="POST" class="row g-3">
+        {% csrf_token %}
+        <div class="col-7">
+        
+         
+            {{form.id_famille|as_crispy_field}}
+        
+          </div>
+
+
+          <div class="col-5">
+            {{form.designation|as_crispy_field}}
+          </div>
+       
+        <div class="col-4">
+            {{form.marque|as_crispy_field}}
+        </div>
+        <div class="col-4">
+            {{form.model|as_crispy_field}}
+        </div>
+        <div class="col-4">
+          
+            {{form.seuil|as_crispy_field}}
+          </div>
+          <div class="col-3">
+            {{form.active|as_crispy_field}}
+          </div>
+
+          <div class="col-3">
+            {{form.groupresp|as_crispy_field}}
+          </div>
+      
+        
+          <div class="col-3">
+            {{form.pid1|as_crispy_field}}
+          </div>
+          <div class="col-3">
+            {{form.icon|as_crispy_field}}
+          </div>
+        <div class="col-5">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-danger" href="{% url 'article' %}">Annuler</a>
+      </div>
+      </form>
+  
+
+    
+   
+   
+    {% endblock %}
+    {% block javascripts %}
+    
+    {% endblock javascripts %}

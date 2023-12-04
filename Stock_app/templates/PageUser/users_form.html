@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+      <div class="d-block mb-4 mb-md-0">
+         
+          <h2 class="h4">Formulaire Utilisateurs</h2>
+          
+      </div>
+     
+  </div>
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <form  method="POST"  class="row g-3">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-12">
+              {{form|crispy}}
+              <div class="col-2 mt-2">
+              <button type="submit" class="btn btn-primary ">Submit</button>
+              <a class="btn btn-danger" href="{% url 'users' %}">Cancel</a>
+            </div>
+            </div>
+            </div>
+      
+      </form>
+  </div>
+
+    
+   
+   
+    {% endblock %}

@@ -1,0 +1,125 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+
+
+</style>
+{% endblock stylesheets %}
+{% block content %}
+
+<div class="container-fluid ">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
+        <div class="d-block mb-4 mb-md-0">
+            <h2 class="h4">Formulaire Facture </h2>
+
+        </div>
+
+    </div>
+
+    <div class="card card-body border-0 shadow table-wrapper table-responsive">
+        <form method="POST" id="myform" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="facture">
+                <div class="row">
+                    <div class="col-3">
+                        <label>phone_number</label>
+                        {{form.phone_number}}
+                    </div>
+                    <div class="col-3">
+                        <label>reference</label>
+                        {{form.ref }}
+                    </div>
+                    <div class="col-3">
+                        <label>Society</label>
+                        {{form.Society}}
+                    </div>
+                    <div class="col-3">
+                        <label>date</label>
+                        {{form.dateen}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {{form.facture_print}}
+                    {{form.bondlev}}
+                </div>
+
+            </div>
+            {{ formset.management_form }}
+
+            {% for field in formset %}
+
+
+            <div class="item d-flex justify-content-between" style="margin-top: 25px;">
+                {{field|crispy}}
+                <button class="align-self-center btn btn-danger delete-image-form mt-4"><i
+                        class="fa-solid fa-trash-can"></i></button>
+            </div>
+
+
+
+            {% endfor %}
+
+
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <button id="add-form" type="button" class="btn btn-success mt-3"><i class="fa-solid fa-plus"
+                    style="color: white;"></i></button>
+        </form>
+
+
+    </div>
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script>
+    $("document").ready(function () {
+        $('select').select2();
+    })
+
+    const imageForm = document.getElementsByClassName("item");
+    const mainForm = document.querySelector("#myform");
+    const addImageFormBtn = document.querySelector("#add-form");
+    const submitFormBtn = document.querySelector('[type="submit"]');
+    const totalForms = document.querySelector("#id_form-TOTAL_FORMS");
+
+    let formCount = imageForm.length - 1;
+
+    function updateForms() {
+        let count = 0;
+        for (let form of imageForm) {
+            const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+            form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
+        }
+    }
+
+    addImageFormBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        $('select').select2('destroy');
+        const newImageForm = imageForm[0].cloneNode(true);
+        const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+        formCount++;
+        newImageForm.innerHTML = newImageForm.innerHTML.replace(formRegex, `form-${formCount}-`);
+        mainForm.insertBefore(newImageForm, submitFormBtn);
+        totalForms.setAttribute('value', `${formCount + 1}`);
+        $('select').select2();
+
+    });
+
+    mainForm.addEventListener("click", function (event) {
+        if (event.target.classList.contains("delete-image-form")) {
+            $('select').select2('destroy');
+            event.preventDefault();
+            event.target.parentElement.remove();
+            formCount--;
+            updateForms();
+            totalForms.setAttribute('value', `${formCount + 1}`);
+            $('select').select2();
+
+        }
+    });
+</script>
+{% endblock javascripts %}

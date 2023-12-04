@@ -1,0 +1,95 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Transactions {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+      <div class="d-block mb-4 mb-md-0">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+              <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                  <li class="breadcrumb-item">
+                      <a href="#">
+                          <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                      </a>
+                  </li>
+                  <li class="breadcrumb-item"><a href="#">Stock</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Historiques</li>
+              </ol>
+          </nav>
+          <h2 class="h4">Historique de Stock</h2>
+          <p class="mb-0">Tout les Historiques tout a voir les Historiques de chaque aricle attribue.</p>
+      </div>
+      <div class="btn-toolbar mb-2 mb-md-0">
+          <a href="{% url 'historybyown' %}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            item History 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+              </svg>
+          </a>
+          
+      </div>
+  </div>
+
+  
+  <div class="card card-body border-0 shadow table-wrapper table-responsive">
+      <table id="table" class="table table-hover">
+          <thead>
+              <tr>
+                  <th class="border-gray-200">id_sous_famille</th>
+                  <th class="border-gray-200">code#</th>						
+                  <th class="border-gray-200">quantity</th>
+                  <th class="border-gray-200">quantité recu</th>
+                  <th class="border-gray-200">quantité donner</th>
+                  <th class="border-gray-200">donner a</th>
+                  <th class="border-gray-200">date</th>
+                  <th class="border-gray-200">reception par</th>
+               
+              
+
+              </tr>
+          </thead>
+          <tbody>
+              <!-- Item -->
+              {% for article in queryset %}
+              <tr>
+                <td>{{article.id_sous_famille}}</td>
+                <td>{{article.ci}}</td>
+                <td>{{article.quantity}} </td>
+                <td>{{article.receive_quantity}}</td>
+                <td>{{article.issue_quantity}}</td>
+                <td>{{article.issue_to}}</td>
+                <td>{{article.last_updated}}</td>
+                <td>
+                    {% if article.receive_by %}
+                    reception:{{article.receive_by}}
+                    {% elif article.issue_by %} 
+                     affectation:{{article.issue_by}}
+                    {%endif%}
+            </td>
+            
+              </tr>
+              {% endfor %}                      
+          </tbody>
+      </table>
+     </div>
+     
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+$(document).ready(function() {
+  $('#table').DataTable();
+} );
+
+</script>
+
+
+
+{% endblock javascripts %}
